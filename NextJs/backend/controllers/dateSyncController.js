@@ -24,13 +24,11 @@ exports.getDateOrdersWithItems = async (req, res) => {
     const startDate = new Date(parsedDate.setHours(0, 0, 0, 0));
     const endDate = new Date(parsedDate.setHours(23, 59, 59, 999));
 
-    // ✅ Fetch CRM orders' zaapko_order_id values
     const crmOrders = await tbl_order_main.findAll({
       attributes: ['zaapko_order_id'],
     });
     const syncedIds = crmOrders.map(order => order.zaapko_order_id);
 
-    // ✅ Fetch sales orders from prod
     const orders = await sales_order.findAll({
       where: {
         created_at: {
@@ -52,12 +50,11 @@ exports.getDateOrdersWithItems = async (req, res) => {
       });
     }
 
-    // ✅ Add crm_synced field by comparing increment_id with zaapko_order_id
     const enrichedOrders = orders.map(order => {
       const plain = order.get({ plain: true });
       return {
         ...plain,
-        crm_synced: syncedIds.includes(order.increment_id), // correct mapping
+        crm_synced: syncedIds.includes(order.increment_id), 
       };
     });
 

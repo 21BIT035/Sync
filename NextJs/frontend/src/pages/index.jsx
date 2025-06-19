@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import Image from 'next/image';
 import { CreditCard, TrendingUp, Users, ShoppingBag } from 'lucide-react';
@@ -30,7 +29,7 @@ const stats = [
   },
 ];
 
-const Dashboard = () => {
+export default function HomePage() {
   return (
     <div className="p-6 space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -64,6 +63,4 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-export default Dashboard;
+}

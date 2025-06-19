@@ -1,16 +1,14 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler } from "next";
+// lib/withSession.js
+
 import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "./sessionOptions";
 
-export const sessionOptions = {
-  password: process.env.SESSION_SECRET,
-  cookieName: 'zacrm_cookie',
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production' ? true : false,
-    httpOnly: true,
-    maxAge: 60 * 60 * 24,
-  },
-};
+// For API routes
+export function withSessionRoute(handler) {
+  return withIronSessionApiRoute(handler, sessionOptions);
+}
 
+// For getServerSideProps
 export function withSessionSsr(handler) {
   return withIronSessionSsr(handler, sessionOptions);
 }
